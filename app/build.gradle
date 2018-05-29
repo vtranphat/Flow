@@ -48,6 +48,8 @@ dependencies {
     // For animated GIF support
     implementation 'com.facebook.fresco:animated-gif:1.9.0'
 
+    implementation 'com.karumi:dexter:4.1.0'
+
     // For WebP support, including animated WebP
     implementation 'com.facebook.fresco:animated-webp:1.9.0'
     implementation 'com.facebook.fresco:webpsupport:1.9.0'
