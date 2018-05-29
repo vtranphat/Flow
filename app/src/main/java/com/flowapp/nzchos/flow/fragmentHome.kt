@@ -12,6 +12,7 @@ import com.flowapp.nzchos.flow.R
 import com.flowapp.nzchos.flow.R.layout.fragment_home
 import android.support.v4.app.FragmentActivity
 import android.app.Activity
+import android.content.Context
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 
@@ -21,8 +22,15 @@ class fragmentHome : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
+
         configureTabLayout()
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        configureTabLayout()
+    }
+
     private fun configureTabLayout() {
 
         tab_layout.addTab(tab_layout.newTab().setText("Tab 1 Item"))
