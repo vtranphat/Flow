@@ -12,21 +12,42 @@ import com.flowapp.nzchos.flow.R
 import com.flowapp.nzchos.flow.R.layout.fragment_home
 import android.support.v4.app.FragmentActivity
 import android.app.Activity
+import android.support.design.widget.Snackbar
+import android.support.design.widget.TabLayout
 
 
-class fragmentHome : Fragment(), FirstFragment.FirstFragmentListener {
-    override fun onclick() {
 
-    }
+class fragmentHome : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
+        configureTabLayout()
+    }
+    private fun configureTabLayout() {
 
-        val firstFragment = FirstFragment()
-        firstFragment.listener = this
+        tab_layout.addTab(tab_layout.newTab().setText("Tab 1 Item"))
+        tab_layout.addTab(tab_layout.newTab().setText("Tab 2 Item"))
 
-        childFragmentManager.beginTransaction()
-                .add(R.id.tabFragmentContainer, firstFragment)
-                .commit()
+        val adapter = TabPagerAdapter(childFragmentManager,
+                tab_layout.tabCount)
+        pager.adapter = adapter
+
+        pager.addOnPageChangeListener(
+                TabLayout.TabLayoutOnPageChangeListener(tab_layout))
+        tab_layout.addOnTabSelectedListener(object :
+                TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                pager.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+
+        })
     }
 }

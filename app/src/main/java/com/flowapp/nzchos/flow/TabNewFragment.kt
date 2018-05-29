@@ -7,18 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 
 
-/**
- * A simple [Fragment] subclass.
- */
-class FirstFragment : Fragment() {
+class TabNewFragment : Fragment() {
 
-    interface FirstFragmentListener {
-        fun onclick()
-    }
-
-    var listener : FirstFragmentListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_first, container, false)
+        return inflater?.inflate(R.layout.fragment_tab_new, container, false)
     }
 }

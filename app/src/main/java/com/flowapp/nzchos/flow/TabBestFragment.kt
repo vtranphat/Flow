@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 
 
-/**
- * A simple [Fragment] subclass.
- */
-class SecondFragment : Fragment() {
+
+class TabBestFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_second, container, false)
+        return inflater.inflate(R.layout.fragment_tab_best, container, false)
     }
 
 }// Required empty public constructor
