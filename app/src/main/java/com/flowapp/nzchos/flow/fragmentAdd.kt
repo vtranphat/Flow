@@ -38,6 +38,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import kotlinx.android.synthetic.main.activity_tag.*
 import org.jetbrains.anko.Android
 import java.io.File
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -74,6 +75,8 @@ class fragmentAdd : Fragment() {
 
     }
 
+
+
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CAMERA_REQUEST_CODE)
@@ -81,76 +84,13 @@ class fragmentAdd : Fragment() {
             Log.d(TAG, "onActivityResult: done taking a photo.")
             Log.d(TAG, "onActivityResult: attempting to navigate to final share screen.")
             //navigate to the final share screen to publish photo
-            photoImageView.setImageBitmap(data.extras.get("data") as Bitmap)
+            photoImageView?.setImageBitmap(data.extras.get("data") as Bitmap)
+            val photoData = data.extras.get("data") as Bitmap
+            val intent = Intent(activity, TagActivity::class.java)
+            intent.putExtra("photoSrc", photoData)
+            startActivity(intent)
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
-    val CAMERA_REQUEST_CODE = 0
-    //var packageManager: PackageManager? = context?.getPackageManager()
-    //var packageManager = context?.getPackageManager()
-    var packageManager: PackageManager? = getActivity()?.getPackageManager() ?: null
-
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_add, container, false)
-
-
-    }
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        println(packageManager)
-        cameraButton.setOnClickListener {
-            println("dfsjhskh")
-            val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (callCameraIntent.resolveActivity(packageManager) !=null) {
-                startActivityForResult(callCameraIntent, CAMERA_REQUEST_CODE)
-            }
-        }
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode) {
-            CAMERA_REQUEST_CODE -> {
-                if(resultCode == Activity.RESULT_OK && data != null) {
-                    photoImageView.setImageBitmap(data.extras.get("data") as Bitmap)
-                }
-            }
-            else -> {
-                Toast.makeText(getActivity(), "Unrecognized request code", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-    **/
 
 }

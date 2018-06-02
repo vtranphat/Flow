@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
         val registerBtn = findViewById<View>(R.id.register_sign_in_button) as Button
 
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Names")
+        mDatabase = FirebaseDatabase.getInstance().getReference("users")
 
 
         registerBtn.setOnClickListener(View.OnClickListener {
@@ -66,7 +66,8 @@ class RegisterActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = mAuth.currentUser
                     val uid = user!!.uid
-                    mDatabase.child(uid).child("Name").setValue(name)
+                    mDatabase.child(uid).child("username").setValue(name)
+                    mDatabase.child(uid).child("email").setValue(email)
                     startActivity(Intent(this, HomeActivity::class.java))
                     Toast.makeText(this, "Successfully registered :)", Toast.LENGTH_LONG).show()
                 }else {
