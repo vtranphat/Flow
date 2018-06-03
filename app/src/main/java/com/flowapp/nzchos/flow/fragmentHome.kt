@@ -33,8 +33,8 @@ class fragmentHome : Fragment() {
 
     private fun configureTabLayout() {
 
-        tab_layout.addTab(tab_layout.newTab().setText("Tab 1 Item"))
-        tab_layout.addTab(tab_layout.newTab().setText("Tab 2 Item"))
+        tab_layout.addTab(tab_layout.newTab().setText("BEST"))
+        tab_layout.addTab(tab_layout.newTab().setText("NOUVEAU"))
 
         val adapter = TabPagerAdapter(childFragmentManager,
                 tab_layout.tabCount)

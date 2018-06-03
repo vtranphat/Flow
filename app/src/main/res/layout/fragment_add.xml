@@ -12,27 +12,65 @@
         android:id="@+id/photoImageView2"
         android:layout_width="0dp"
         android:layout_height="389dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:src="@color/colorGrey"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_photo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/cameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Start Camera"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:background="@drawable/ic_add_a_photo_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/photoImageView2"
+        app:layout_constraintEnd_toEndOf="@+id/photoImageView2"
+        app:layout_constraintStart_toStartOf="@+id/photoImageView2"
+        app:layout_constraintTop_toTopOf="@+id/photoImageView2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="PRENDRE UNE PHOTO"
+        android:fontFamily="@font/futurastdcondensedbold"
+        app:layout_constraintEnd_toEndOf="@+id/photoImageView2"
+        app:layout_constraintStart_toStartOf="@+id/photoImageView2"
+        app:layout_constraintTop_toBottomOf="@+id/cameraButton" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/futurastdcondensedbold"
+        android:gravity="center"
+        android:text="IL NE VOUS RESTE QUE 2 FLOWS A PARTAGÉ CETTE SEMAINE"
+        android:textColor="@color/TextBlack"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photoImageView" />
+        app:layout_constraintTop_toTopOf="@+id/photoImageView2" />
+
+
 </android.support.constraint.ConstraintLayout>

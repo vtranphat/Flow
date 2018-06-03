@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class PostsAdapter(val posts: ArrayList<String>) : RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
+class UserOutfitsAdapter(val posts: ArrayList<String>) : RecyclerView.Adapter<UserOutfitsAdapter.ViewHolder>() {
 
 
     override fun getItemCount() = posts.size
@@ -20,7 +20,7 @@ class PostsAdapter(val posts: ArrayList<String>) : RecyclerView.Adapter<PostsAda
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.user_outfits, parent, false)
         return ViewHolder(view)
     }
 

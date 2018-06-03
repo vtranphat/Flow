@@ -43,11 +43,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/futurastdcondensedbold"
-                android:textSize="24sp"
+                android:text="AJOUTER DES TAGS"
                 android:textColor="@color/TextBlack"
-                android:text="AJOUTER DES TAGS" />
+                android:textSize="24sp" />
 
-            <SearchView
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/tagList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+
+            <!--<SearchView
                 android:id="@+id/searchtext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -55,7 +67,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" /> -->
 
         </LinearLayout>
     </ScrollView>
