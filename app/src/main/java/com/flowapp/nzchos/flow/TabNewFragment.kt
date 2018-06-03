@@ -2,11 +2,13 @@ package com.flowapp.nzchos.flow
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.OrientationHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout.VERTICAL
 import kotlinx.android.synthetic.main.fragment_tab_new.*
 
 
@@ -27,7 +29,7 @@ class TabNewFragment : Fragment() {
             posts.add("Post # $i")
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext, OrientationHelper.HORIZONTAL, false)
+        recyclerView.layoutManager = GridLayoutManager(activity?.applicationContext, 2, VERTICAL, false)
         recyclerView.adapter = PostsAdapter(posts)
     }
 }
