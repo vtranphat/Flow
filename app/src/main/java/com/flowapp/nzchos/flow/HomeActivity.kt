@@ -26,15 +26,18 @@ class HomeActivity : AppCompatActivity() {
                 selectedFragment).commit()
 
         true
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        // Retrieve Intent Extra for user
+        val emailUser = intent.getStringExtra("email")
+
         val bottomNav = findViewById(R.id.bottom_navigation) as BottomNavigationView
         bottomNav.setOnNavigationItemSelectedListener(navListener)
-
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
