@@ -13,6 +13,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_tab_best.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class TabBestFragment : Fragment() {
@@ -28,18 +31,45 @@ class TabBestFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         // Retrieve data firebase
         mDatabase = FirebaseDatabase.getInstance().getReference("posts")
 
 
         val tagListener = object : ValueEventListener {
-
+            val posts: ArrayList<String> = ArrayList()
+            val likeArray: ArrayList<Long> = ArrayList()
+            val photoArray: ArrayList<String> = ArrayList()
+            val idArray: ArrayList<String> = ArrayList()
 
             override fun onDataChange(tagSnapshot: DataSnapshot) {
                 if (tagSnapshot.exists()) {
+
                     val message = tagSnapshot.getValue(Message::class.java)
-                    println(tagSnapshot)
+
+                    for (snapshot in tagSnapshot.children) {
+                        val snapContent: ArrayList<String> = ArrayList()
+                        val name = snapshot.value as HashMap<String, String>
+                        val bestOutfitArray: ArrayList<String> = ArrayList()
+                        val photo = name["photoUrl"] as String
+                        val numberOfLike = name["rate"] as Long
+                        val postId = snapshot.key as String
+
+
+                        //bestOutfitArray.add(name)
+
+                        //println("yo" + bestArray)
+                        // Create RecyclerView
+                        likeArray.add(numberOfLike)
+                        posts.add(postId)
+                        idArray.add(postId)
+                        photoArray.add(photo)
+
+
+                        newOutfitsRecycler.layoutManager = GridLayoutManager(activity?.applicationContext, 2, VERTICAL,  false)
+                        newOutfitsRecycler.adapter = NewOutfitsAdapter(posts, photoArray, likeArray, idArray  )
+                        println("#call"+numberOfLike)
+
+                    }
 
                 }
             }
@@ -49,18 +79,10 @@ class TabBestFragment : Fragment() {
             }
         }
 
-        mDatabase.orderByChild("day").equalTo(true).addValueEventListener(tagListener)
+        mDatabase.orderByChild("new").equalTo(true).addValueEventListener(tagListener)
+        //mDatabase.addValueEventListener(tagListener)
 
 
-        // Create RecyclerView
-        val posts: ArrayList<String> = ArrayList()
-
-        for (i in 1..100) {
-            posts.add("Post # $i")
-        }
-
-        newOutfitsRecycler.layoutManager = GridLayoutManager(activity?.applicationContext, 2, VERTICAL,  false)
-        newOutfitsRecycler.adapter = NewOutfitsAdapter(posts)
     }
 
 }

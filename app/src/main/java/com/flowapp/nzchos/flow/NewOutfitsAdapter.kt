@@ -1,22 +1,35 @@
 package com.flowapp.nzchos.flow
 
-import android.support.v7.widget.CardView
+import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.list_item.view.*
+import android.graphics.BitmapFactory
+import com.hendraanggrian.pikasso.picasso
+import com.squareup.picasso.Picasso
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
-class NewOutfitsAdapter(val posts: ArrayList<String>) : RecyclerView.Adapter<NewOutfitsAdapter.ViewHolder>() {
+
+class NewOutfitsAdapter(val posts: ArrayList<String>, val photo: ArrayList<String>, val numberOfLike: ArrayList<Long>, val identifantPost: ArrayList<String>) : RecyclerView.Adapter<NewOutfitsAdapter.ViewHolder>() {
 
 
-    override fun getItemCount() = posts.size
+    /*val imgOutfit : ImageView= itemView.findViewById(R.id.img_like)
+    mImageOutFit = findViewById(R.id.img_like)*/
+    override fun getItemCount() = posts.count()
 
 
     override fun onBindViewHolder(holder:ViewHolder, position: Int) {
         holder.weshBoo.text = posts[position]
+        holder.userLike.text = numberOfLike[position].toString(10)
+        //holder.imgOutfit.setImageBitmap()
+        println("LIKE FDP" + numberOfLike)
+        picasso.load(photo[position]).into(holder.imgOutfit)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,5 +39,7 @@ class NewOutfitsAdapter(val posts: ArrayList<String>) : RecyclerView.Adapter<New
 
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val weshBoo : TextView = itemView.findViewById(R.id.weshBoo)
+        val userLike : TextView = itemView.findViewById(R.id.user_like)
+        val imgOutfit : ImageView= itemView.findViewById(R.id.photoView)
     }
 }
