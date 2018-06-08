@@ -27,8 +27,6 @@ class NewOutfitsAdapter(val posts: ArrayList<String>, val photo: ArrayList<Strin
     override fun onBindViewHolder(holder:ViewHolder, position: Int) {
         holder.weshBoo.text = posts[position]
         holder.userLike.text = numberOfLike[position].toString(10)
-        //holder.imgOutfit.setImageBitmap()
-        println("LIKE FDP" + numberOfLike)
         picasso.load(photo[position]).into(holder.imgOutfit)
     }
 

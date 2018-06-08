@@ -23,6 +23,7 @@ class TabBestFragment : Fragment() {
 
     val mAuth = FirebaseAuth.getInstance()
     lateinit var mDatabase : DatabaseReference
+    var allReadyLoad = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tab_best, container, false)
@@ -41,8 +42,10 @@ class TabBestFragment : Fragment() {
             val photoArray: ArrayList<String> = ArrayList()
             val idArray: ArrayList<String> = ArrayList()
 
+
             override fun onDataChange(tagSnapshot: DataSnapshot) {
                 if (tagSnapshot.exists()) {
+
 
                     val message = tagSnapshot.getValue(Message::class.java)
 
@@ -65,9 +68,15 @@ class TabBestFragment : Fragment() {
                         photoArray.add(photo)
 
 
-                        newOutfitsRecycler.layoutManager = GridLayoutManager(activity?.applicationContext, 2, VERTICAL,  false)
-                        newOutfitsRecycler.adapter = NewOutfitsAdapter(posts, photoArray, likeArray, idArray  )
-                        println("#call"+numberOfLike)
+
+                        if (allReadyLoad == false) {
+                            allReadyLoad = true
+                            newOutfitsRecycler.layoutManager = GridLayoutManager(activity?.applicationContext, 2, VERTICAL,  false)
+                            newOutfitsRecycler.adapter = NewOutfitsAdapter(posts, photoArray, likeArray, idArray  )
+                        }
+
+
+
 
                     }
 

@@ -24,6 +24,7 @@ class fragmentUser : Fragment() {
         **/
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

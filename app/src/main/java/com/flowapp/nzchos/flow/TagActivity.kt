@@ -2,10 +2,13 @@ package com.flowapp.nzchos.flow
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.nfc.Tag
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Message
+import android.provider.MediaStore
+import android.support.annotation.NonNull
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,13 +20,19 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.flowapp.nzchos.flow.R.id.photoImageView
 
 import com.flowapp.nzchos.flow.R.styleable.Toolbar
+import com.google.android.gms.auth.api.signin.internal.Storage
+import com.google.android.gms.tasks.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.*
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat
 import ir.mirrajabi.searchdialog.core.SearchResultListener
 import kotlinx.android.synthetic.main.activity_tag.*
 import kotlinx.android.synthetic.main.fragment_tab_best.*
 import org.jetbrains.anko.toolbar
+import java.io.File
+import java.net.URI
 
 class TagActivity : AppCompatActivity() {
 
@@ -33,6 +42,10 @@ class TagActivity : AppCompatActivity() {
     lateinit var selectedTagList : ListView
     val tagArray: ArrayList<String> = ArrayList()
     val tagSelected: ArrayList<String> = ArrayList()
+    var storage = FirebaseStorage.getInstance()
+    var imageUri = String()
+
+    //private var imageReference: StorageReference? = null
 
     //lateinit var mSearchText : EditText
     lateinit var mRecyclerView : RecyclerView
@@ -43,17 +56,28 @@ class TagActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tag)
 
+
         // Display Toolbar
         var toolbar = findViewById(R.id.toolbar2) as Toolbar
         setSupportActionBar(toolbar)
 
         // Get Bitmap Data From AddActivity
-        val bitmapSrc = intent.getParcelableExtra<Bitmap>("photoSrc")
-        photoImageView?.setImageBitmap(bitmapSrc as Bitmap)
+        //val bitmapSrc = intent.data("photoSrc")
+        val uri = intent.data
+        imageUri =  uri.toString()
+        val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri)
+        photoImageView?.setImageBitmap(bitmap as Bitmap)
+
+        println("IMAAGE " + uri)
 
 
         // Retrieve data firebase
         mDatabase = FirebaseDatabase.getInstance().getReference("tag")
+
+
+
+
+
 
 
         val tagListener = object : ValueEventListener {
@@ -127,14 +151,15 @@ class TagActivity : AppCompatActivity() {
             val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
             selectedTagList.adapter = adapter*/
 
-            // VALIDATION OUTFIT BUTTON
-            outfitRegister.setOnClickListener {
-                registerOutfit()
-            }
+
 
         }
         tagRecycler.layoutManager = LinearLayoutManager(this, VERTICAL, false)
         tagRecycler.adapter = tagOutfitAdapter(tagArray,tagSelected, this)
+
+        outfitRegister.setOnClickListener {
+            saveFile()
+        }
 
 
     }
@@ -166,8 +191,57 @@ class TagActivity : AppCompatActivity() {
         }
     }
 
+    private fun saveFile() {
+        var storageRef = storage.getReference()
+        var postRef = storageRef.child("post_image")
+        //var theImage = compress(Bitmap.CompressFormat.PNG, quality, outStream)
 
+        val file = Uri.parse(imageUri)
+        var imageRef = postRef.child(file.getLastPathSegment())
 
+        var uploadTask = imageRef.putFile(file)
+        var urlTask = uploadTask.continueWithTask(object: Continuation<UploadTask.TaskSnapshot, Task< Uri>> {
+            @Throws(Exception::class)
+            override fun then(@NonNull task: Task<UploadTask.TaskSnapshot>):Task<Uri> {
+                if (!task.isSuccessful())
+                {
+                    //throw task.getException()
+                }
+                // Continue with the task to get the download URL
+                return imageRef.getDownloadUrl()
+            }
+        }).addOnCompleteListener(object:OnCompleteListener<Uri> {
+            override fun onComplete(@NonNull task:Task<Uri>) {
+                if (task.isSuccessful())
+                {
+                    val downloadUri = task.getResult()
+                    val outfitPostRef = FirebaseDatabase.getInstance().getReference("posts")
+                    val user = mAuth.currentUser
+                    val uid = user!!.uid
+                    val photoUrl:String = downloadUri.toString()
+                    val tagDict = HashMap<String, Any>()
+                    for (i in 0..tagSelected.size-1) {
+                        tagDict.put(tagSelected[i], tagSelected[i])
+                    }
+                    outfitPostRef.child(uid).child("user").setValue(uid)
+                    outfitPostRef.child(uid).child("photoUrl").setValue(photoUrl)
+                    outfitPostRef.child(uid).child("tags").setValue(tagDict)
+                    outfitPostRef.child(uid).child("rate").setValue(0)
+                    outfitPostRef.child(uid).child("day").setValue(false)
+                    outfitPostRef.child(uid).child("new").setValue(true)
+                    outfitPostRef.child(uid).child("toShow").setValue(false)
+                    outfitPostRef.child(uid).child("addDate").setValue(ServerValue.TIMESTAMP)
+                    println("DONE")
+                    }
+                else
+                {
+                    // Handle failures
+                    // ...
+                }
+            }
+        })
+
+    }
 
     private fun initData():ArrayList<SearchModel> {
 
